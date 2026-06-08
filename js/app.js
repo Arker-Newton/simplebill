@@ -329,6 +329,21 @@ function renderFooter(tpl) {
   return `<div class="inv-footer">${html}</div>`;
 }
 
+// ====== Pro Modal ======
+function showProModal() {
+  document.getElementById('proModal').classList.add('active');
+}
+function closeProModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById('proModal').classList.remove('active');
+}
+function handleProPurchase() {
+  // Redirect to Ko-fi Shop or Gumroad
+  // TODO: Replace with actual payment link after user sets up
+  showToast('🛒 Payment page coming soon! Contact us to purchase Pro.');
+  // window.open('https://ko-fi.com/simplebill/shop', '_blank');
+}
+
 // ====== Actions ======
 function handlePrint() {
   window.print();
@@ -451,5 +466,9 @@ document.addEventListener('keydown', (e) => {
   if ((e.ctrlKey || e.metaKey) && e.key === 'p') {
     e.preventDefault();
     handlePrint();
+  }
+  if (e.key === 'Escape') {
+    const modal = document.getElementById('proModal');
+    if (modal.classList.contains('active')) closeProModal();
   }
 });

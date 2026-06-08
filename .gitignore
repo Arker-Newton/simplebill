@@ -1,0 +1,13 @@
+# Credentials
+git-credentials
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Scripts
+create_repo.py
