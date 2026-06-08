@@ -136,7 +136,7 @@
           </div>
         </section>
 
-        <!-- Currency & Tax -->
+        <!-- Currency & Tax & Discount -->
         <section class="form-section form-row">
           <div style="flex:1">
             <label class="section-label">Currency</label>
@@ -154,12 +154,31 @@
             <label class="section-label">Tax Rate (%)</label>
             <input class="input" type="number" id="taxRate" value="0" min="0" max="100" step="0.5" oninput="renderPreview()">
           </div>
+          <div style="flex:1">
+            <label class="section-label">Discount</label>
+            <div style="display:flex;gap:4px;">
+              <select class="input" id="discountType" onchange="renderPreview()" style="flex:0 0 70px;min-width:60px;padding:10px 4px;">
+                <option value="percentage">%</option>
+                <option value="fixed">$</option>
+              </select>
+              <input class="input" type="number" id="discountValue" value="0" min="0" step="0.5" oninput="renderPreview()" style="flex:1">
+            </div>
+          </div>
         </section>
 
         <!-- Bill From -->
         <section class="form-section">
           <label class="section-label"><i class="fas fa-user"></i> From (Your Info)</label>
-          <input class="input" type="text" id="fromName" placeholder="Your Name / Company" oninput="renderPreview()">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <div style="flex:1">
+              <input class="input" type="text" id="fromName" placeholder="Your Name / Company" oninput="renderPreview()">
+            </div>
+            <label class="btn btn-sm btn-outline logo-upload-btn" style="cursor:pointer;flex-shrink:0;" title="Upload logo">
+              <i class="fas fa-image"></i> Logo
+              <input type="file" accept="image/*" style="display:none" onchange="handleLogoUpload(event)">
+            </label>
+            <img id="logoPreview" class="logo-preview" style="display:none;width:32px;height:32px;border-radius:4px;object-fit:contain;border:1px solid var(--border);" onclick="removeLogo()" title="Click to remove">
+          </div>
           <input class="input" type="text" id="fromEmail" placeholder="your@email.com" oninput="renderPreview()">
           <input class="input" type="text" id="fromPhone" placeholder="Phone (optional)" oninput="renderPreview()">
           <textarea class="input input-textarea" id="fromAddress" placeholder="Street, City, Country" rows="2" oninput="renderPreview()"></textarea>
@@ -174,18 +193,37 @@
         </section>
 
         <!-- Invoice Details -->
-        <section class="form-section form-row-3">
-          <div>
-            <label class="section-label">Invoice #</label>
-            <input class="input" type="text" id="invNumber" placeholder="INV-001" oninput="renderPreview()">
+        <section class="form-section">
+          <div class="form-row-3" style="margin-bottom:8px;">
+            <div>
+              <label class="section-label">Invoice #</label>
+              <div style="display:flex;gap:4px;">
+                <input class="input" type="text" id="invNumber" placeholder="INV-001" oninput="renderPreview()" style="flex:1;margin:0;">
+                <button class="btn btn-sm btn-outline" onclick="nextInvoiceNumber()" title="Auto-generate next number" style="padding:6px 8px;"><i class="fas fa-sync"></i></button>
+              </div>
+            </div>
+            <div>
+              <label class="section-label">Date</label>
+              <input class="input" type="date" id="invDate" oninput="renderPreview()">
+            </div>
+            <div>
+              <label class="section-label">Due Date</label>
+              <input class="input" type="date" id="invDueDate" oninput="renderPreview()">
+            </div>
           </div>
-          <div>
-            <label class="section-label">Date</label>
-            <input class="input" type="date" id="invDate" oninput="renderPreview()">
-          </div>
-          <div>
-            <label class="section-label">Due Date</label>
-            <input class="input" type="date" id="invDueDate" oninput="renderPreview()">
+          <div class="form-row">
+            <div style="flex:1">
+              <label class="section-label">Payment Status</label>
+              <select class="input" id="paymentStatus" onchange="renderPreview()">
+                <option value="unpaid">⏳ Unpaid</option>
+                <option value="paid">✅ Paid</option>
+                <option value="overdue">⚠️ Overdue</option>
+              </select>
+            </div>
+            <div style="flex:1;display:flex;align-items:flex-end;gap:4px;">
+              <button class="btn btn-sm btn-outline" onclick="handleDuplicate()" style="flex:1;justify-content:center;"><i class="fas fa-copy"></i> Duplicate</button>
+              <button class="btn btn-sm btn-outline" onclick="handleSave()" style="flex:1;justify-content:center;"><i class="fas fa-download"></i> Export</button>
+            </div>
           </div>
         </section>
 
@@ -226,6 +264,15 @@
             <span>Remove Watermark</span>
             <span class="pro-badge-sm">Pro</span>
           </div>
+        </section>
+
+        <!-- Invoice History -->
+        <section class="form-section" id="historySection">
+          <div class="section-label-row">
+            <label class="section-label" style="margin:0"><i class="fas fa-history"></i> Recent Invoices</label>
+            <button class="btn btn-sm btn-outline" onclick="saveToHistory()"><i class="fas fa-save"></i> Save</button>
+          </div>
+          <div id="historyList"></div>
         </section>
 
         <!-- Notes & Terms -->

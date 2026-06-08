@@ -594,6 +594,52 @@ select.input { cursor: pointer; }
 }
 .tpl-minimal .inv-footer h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--inv-muted); margin-bottom: 2px; }
 
+/* ========== LOGO ========== */
+.logo-upload-btn { font-size: 0.75rem !important; padding: 7px 10px !important; }
+.logo-preview { cursor: pointer; transition: opacity 0.2s; }
+.logo-preview:hover { opacity: 0.6; }
+.inv-logo { max-height: 48px; max-width: 120px; display: block; margin-bottom: 6px; object-fit: contain; }
+
+/* ========== PAYMENT BADGES ========== */
+.inv-badge {
+  position: absolute;
+  top: 40px;
+  right: 56px;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  transform: rotate(5deg);
+}
+.inv-badge-paid { background: #dcfce7; color: #166534; border: 2px solid #22c55e; }
+.inv-badge-unpaid { background: #fef3c7; color: #92400e; border: 2px solid #f59e0b; }
+.inv-badge-overdue { background: #fef2f2; color: #991b1b; border: 2px solid #ef4444; }
+
+/* ========== INVOICE HISTORY ========== */
+#historySection { margin-bottom: 16px; }
+#historyList { max-height: 240px; overflow-y: auto; }
+.history-empty {
+  padding: 16px; text-align: center; font-size: 0.78rem;
+  color: var(--text-muted); border: 1px dashed var(--border); border-radius: var(--radius);
+}
+.history-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+  margin-bottom: 4px; cursor: pointer; transition: all var(--transition);
+}
+.history-item:hover { background: var(--primary-light); border-color: var(--primary); }
+.history-item-main { display: flex; flex-direction: column; gap: 1px; }
+.history-number { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+.history-client { font-size: 0.7rem; color: var(--text-muted); }
+.history-item-side { display: flex; align-items: center; gap: 8px; }
+.history-amount { font-size: 0.82rem; font-weight: 600; color: var(--text); }
+.history-del {
+  padding: 4px 6px; border: none; background: none; color: var(--text-muted);
+  cursor: pointer; border-radius: 4px; font-size: 0.75rem;
+}
+.history-del:hover { color: var(--red); background: #fef2f2; }
+
 /* ========== FORM HERO ========== */
 .form-hero {
   margin-bottom: 20px;
