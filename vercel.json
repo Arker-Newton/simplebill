@@ -1,0 +1,7 @@
+{
+  "name": "simplebill",
+  "description": "Free invoice generator for freelancers.",
+  "github": {
+    "silent": true
+  }
+}

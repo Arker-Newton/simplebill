@@ -1,0 +1,9 @@
+{
+  "name": "simplebill",
+  "version": "1.0.0",
+  "description": "Free invoice generator for freelancers. No sign-up, no ads.",
+  "scripts": {
+    "dev": "python -m http.server 8080",
+    "deploy": "vercel --prod"
+  }
+}

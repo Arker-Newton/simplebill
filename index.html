@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SimpleBill — Free Invoice Generator</title>
+  <meta name="description" content="Create professional invoices in seconds. Free, no sign-up, no ads.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <i class="fas fa-file-invoice nav-logo-icon"></i>
+        <span class="nav-logo-text">SimpleBill</span>
+        <span class="nav-badge">beta</span>
+      </div>
+      <div class="nav-actions">
+        <a href="#" class="nav-link" onclick="handleNew()" title="New invoice"><i class="fas fa-plus"></i> New</a>
+        <a href="#" class="nav-link" onclick="handleSave()" title="Save to JSON"><i class="fas fa-download"></i> Save</a>
+        <a href="#" class="nav-link" onclick="handleLoad()" title="Load from JSON"><i class="fas fa-upload"></i> Load</a>
+        <a href="#" class="nav-link" onclick="handlePrint()" title="Print / PDF"><i class="fas fa-file-pdf"></i> PDF</a>
+        <a href="https://ko-fi.com/simplebill" target="_blank" class="nav-link nav-donate" title="Support us">
+          <i class="fas fa-heart"></i> Support
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-container">
+
+    <!-- Left: Form -->
+    <div class="form-panel" id="formPanel">
+      <div class="form-scroll">
+
+        <!-- Template Picker -->
+        <section class="form-section">
+          <label class="section-label">Template</label>
+          <div class="template-picker">
+            <button class="template-opt active" data-template="modern" onclick="setTemplate('modern')">
+              <i class="fas fa-pen-fancy"></i> Modern
+            </button>
+            <button class="template-opt" data-template="classic" onclick="setTemplate('classic')">
+              <i class="fas fa-scroll"></i> Classic
+            </button>
+            <button class="template-opt" data-template="minimal" onclick="setTemplate('minimal')">
+              <i class="fas fa-minus"></i> Minimal
+            </button>
+          </div>
+        </section>
+
+        <!-- Currency -->
+        <section class="form-section form-row">
+          <div style="flex:1">
+            <label class="section-label">Currency</label>
+            <select class="input" id="currency" onchange="renderPreview()">
+              <option value="USD">$ USD</option>
+              <option value="EUR">€ EUR</option>
+              <option value="GBP">£ GBP</option>
+              <option value="CNY">¥ CNY</option>
+              <option value="JPY">¥ JPY</option>
+              <option value="CAD">C$ CAD</option>
+              <option value="AUD">A$ AUD</option>
+            </select>
+          </div>
+          <div style="flex:1">
+            <label class="section-label">Tax Rate (%)</label>
+            <input class="input" type="number" id="taxRate" value="0" min="0" max="100" step="0.5" oninput="renderPreview()">
+          </div>
+        </section>
+
+        <!-- Bill From -->
+        <section class="form-section">
+          <label class="section-label">From (Your Info)</label>
+          <input class="input" type="text" id="fromName" placeholder="Your Name / Company" oninput="renderPreview()">
+          <input class="input" type="text" id="fromEmail" placeholder="your@email.com" oninput="renderPreview()">
+          <input class="input" type="text" id="fromPhone" placeholder="Phone (optional)" oninput="renderPreview()">
+          <textarea class="input input-textarea" id="fromAddress" placeholder="Street, City, Country" rows="2" oninput="renderPreview()"></textarea>
+        </section>
+
+        <!-- Bill To -->
+        <section class="form-section">
+          <label class="section-label">To (Client Info)</label>
+          <input class="input" type="text" id="toName" placeholder="Client Name / Company" oninput="renderPreview()">
+          <input class="input" type="text" id="toEmail" placeholder="client@email.com" oninput="renderPreview()">
+          <textarea class="input input-textarea" id="toAddress" placeholder="Street, City, Country" rows="2" oninput="renderPreview()"></textarea>
+        </section>
+
+        <!-- Invoice Details -->
+        <section class="form-section form-row-3">
+          <div>
+            <label class="section-label">Invoice #</label>
+            <input class="input" type="text" id="invNumber" placeholder="INV-001" oninput="renderPreview()">
+          </div>
+          <div>
+            <label class="section-label">Date</label>
+            <input class="input" type="date" id="invDate" oninput="renderPreview()">
+          </div>
+          <div>
+            <label class="section-label">Due Date</label>
+            <input class="input" type="date" id="invDueDate" oninput="renderPreview()">
+          </div>
+        </section>
+
+        <!-- Line Items -->
+        <section class="form-section">
+          <div class="section-label-row">
+            <label class="section-label" style="margin:0">Line Items</label>
+            <button class="btn btn-sm btn-outline" onclick="addItem()"><i class="fas fa-plus"></i> Add</button>
+          </div>
+          <div id="itemsContainer"></div>
+        </section>
+
+        <!-- Notes & Terms -->
+        <section class="form-section">
+          <label class="section-label">Notes</label>
+          <textarea class="input input-textarea" id="notes" placeholder="Payment instructions, thank you note..." rows="2" oninput="renderPreview()"></textarea>
+        </section>
+        <section class="form-section">
+          <label class="section-label">Terms</label>
+          <textarea class="input input-textarea" id="terms" placeholder="Payment due within 30 days..." rows="2" oninput="renderPreview()"></textarea>
+        </section>
+
+        <div class="form-actions">
+          <button class="btn btn-primary" onclick="handlePrint()"><i class="fas fa-file-pdf"></i> Download PDF</button>
+          <button class="btn btn-secondary" onclick="handleSave()"><i class="fas fa-save"></i> Save Draft</button>
+          <button class="btn btn-outline" onclick="handleNew()"><i class="fas fa-redo"></i> Reset</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right: Preview -->
+    <div class="preview-panel" id="previewPanel">
+      <div class="preview-toolbar">
+        <span class="preview-toolbar-title"><i class="fas fa-eye"></i> Preview</span>
+        <div class="preview-toolbar-actions">
+          <button class="btn btn-sm btn-primary" onclick="handlePrint()"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn btn-sm btn-outline" onclick="handlePrint()"><i class="fas fa-print"></i> Print</button>
+        </div>
+      </div>
+      <div class="preview-viewport" id="previewViewport">
+        <div class="invoice-page" id="invoicePreview">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden file input for loading -->
+  <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileLoad(event)">
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-text">SimpleBill — Free Invoice Generator. Built with <i class="fas fa-heart" style="color:var(--red);font-size:12px;"></i> for freelancers.</span>
+      <div class="footer-links">
+        <a href="#" onclick="handleNew()" class="footer-link">New</a>
+        <a href="https://ko-fi.com/simplebill" target="_blank" class="footer-link">Support</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
