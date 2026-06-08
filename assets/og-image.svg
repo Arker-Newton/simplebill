@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e293b"/>
+      <stop offset="100%" style="stop-color:#0f172a"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f59e0b"/>
+      <stop offset="100%" style="stop-color:#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.05">
+    <line x1="0" y1="100" x2="1200" y2="100" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="200" x2="1200" y2="200" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="300" x2="1200" y2="300" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="400" x2="1200" y2="400" stroke="#fff" stroke-width="1"/>
+    <line x1="0" y1="500" x2="1200" y2="500" stroke="#fff" stroke-width="1"/>
+    <line x1="200" y1="0" x2="200" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="400" y1="0" x2="400" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="800" y1="0" x2="800" y2="630" stroke="#fff" stroke-width="1"/>
+    <line x1="1000" y1="0" x2="1000" y2="630" stroke="#fff" stroke-width="1"/>
+  </g>
+
+  <!-- Logo icon -->
+  <rect x="80" y="60" width="50" height="50" rx="12" fill="url(#accent)"/>
+  <text x="105" y="92" font-family="Arial" font-size="28" font-weight="bold" fill="#fff" text-anchor="middle">S</text>
+
+  <!-- Title -->
+  <text x="150" y="86" font-family="Arial, sans-serif" font-size="28" font-weight="800" fill="#fff">SimpleBill</text>
+  <rect x="310" y="73" width="40" height="18" rx="4" fill="url(#gold)"/>
+  <text x="330" y="86" font-family="Arial" font-size="10" font-weight="bold" fill="#fff" text-anchor="middle">beta</text>
+
+  <!-- Tagline -->
+  <text x="80" y="170" font-family="Arial, sans-serif" font-size="48" font-weight="800" fill="#fff">Professional Invoices,</text>
+  <text x="80" y="230" font-family="Arial, sans-serif" font-size="48" font-weight="800" fill="#60a5fa">Zero Effort</text>
+  <text x="80" y="270" font-family="Arial, sans-serif" font-size="18" fill="#94a3b8">Create stunning invoices in 30s. No signup. No ads. Free.</text>
+
+  <!-- Features -->
+  <g transform="translate(80, 310)">
+    <rect x="0" y="0" width="160" height="40" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="16" y="26" font-family="Arial" font-size="14" fill="#22c55e">✓</text>
+    <text x="34" y="26" font-family="Arial" font-size="14" fill="#cbd5e1">3 Templates</text>
+
+    <rect x="175" y="0" width="180" height="40" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="191" y="26" font-family="Arial" font-size="14" fill="#22c55e">✓</text>
+    <text x="209" y="26" font-family="Arial" font-size="14" fill="#cbd5e1">Real-time Preview</text>
+
+    <rect x="370" y="0" width="160" height="40" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="386" y="26" font-family="Arial" font-size="14" fill="#22c55e">✓</text>
+    <text x="404" y="26" font-family="Arial" font-size="14" fill="#cbd5e1">PDF Export</text>
+
+    <rect x="545" y="0" width="150" height="40" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <text x="561" y="26" font-family="Arial" font-size="14" fill="#22c55e">✓</text>
+    <text x="579" y="26" font-family="Arial" font-size="14" fill="#cbd5e1">Auto-Save</text>
+  </g>
+
+  <!-- Mockup invoice preview (right side) -->
+  <g transform="translate(680, 60)">
+    <rect x="0" y="0" width="440" height="520" rx="12" fill="#fff" filter="url(#shadow)"/>
+    <!-- Invoice header -->
+    <rect x="30" y="30" width="380" height="3" rx="1.5" fill="#2563eb"/>
+    <text x="30" y="65" font-family="Arial" font-size="22" font-weight="800" fill="#1e293b">Simple</text>
+    <text x="72" y="65" font-family="Arial" font-size="22" font-weight="800" fill="#2563eb">Studio</text>
+    <text x="350" y="65" font-family="Arial" font-size="20" font-weight="700" fill="#2563eb" text-anchor="end">INVOICE</text>
+    <text x="350" y="82" font-family="Arial" font-size="11" fill="#64748b" text-anchor="end">INV-2024-0042</text>
+
+    <!-- Addresses -->
+    <text x="30" y="115" font-family="Arial" font-size="9" font-weight="600" fill="#64748b" letter-spacing="1">FROM</text>
+    <text x="30" y="132" font-family="Arial" font-size="13" font-weight="600" fill="#1e293b">Sarah Chen</text>
+    <text x="30" y="149" font-family="Arial" font-size="11" fill="#64748b">sarah@creativestudio.io</text>
+
+    <text x="230" y="115" font-family="Arial" font-size="9" font-weight="600" fill="#64748b" letter-spacing="1">TO</text>
+    <text x="230" y="132" font-family="Arial" font-size="13" font-weight="600" fill="#1e293b">Acme Digital Inc.</text>
+    <text x="230" y="149" font-family="Arial" font-size="11" fill="#64748b">billing@acme.com</text>
+
+    <!-- Table header -->
+    <rect x="30" y="175" width="380" height="30" rx="4" fill="#f1f5f9"/>
+    <text x="40" y="195" font-family="Arial" font-size="10" font-weight="600" fill="#64748b">DESCRIPTION</text>
+    <text x="270" y="195" font-family="Arial" font-size="10" font-weight="600" fill="#64748b">QTY</text>
+    <text x="310" y="195" font-family="Arial" font-size="10" font-weight="600" fill="#64748b">RATE</text>
+    <text x="375" y="195" font-family="Arial" font-size="10" font-weight="600" fill="#64748b" text-anchor="end">AMOUNT</text>
+
+    <!-- Table rows -->
+    <text x="40" y="225" font-family="Arial" font-size="12" fill="#1e293b">UI/UX Design — Homepage Redesign</text>
+    <text x="270" y="225" font-family="Arial" font-size="12" fill="#1e293b">40</text>
+    <text x="310" y="225" font-family="Arial" font-size="12" fill="#1e293b">$95</text>
+    <text x="375" y="225" font-family="Arial" font-size="12" font-weight="600" fill="#1e293b" text-anchor="end">$3,800</text>
+    <line x1="30" y1="235" x2="410" y2="235" stroke="#e2e8f0" stroke-width="1"/>
+
+    <text x="40" y="255" font-family="Arial" font-size="12" fill="#1e293b">Frontend Development — React</text>
+    <text x="270" y="255" font-family="Arial" font-size="12" fill="#1e293b">25</text>
+    <text x="310" y="255" font-family="Arial" font-size="12" fill="#1e293b">$120</text>
+    <text x="375" y="255" font-family="Arial" font-size="12" font-weight="600" fill="#1e293b" text-anchor="end">$3,000</text>
+    <line x1="30" y1="265" x2="410" y2="265" stroke="#e2e8f0" stroke-width="1"/>
+
+    <text x="40" y="285" font-family="Arial" font-size="12" fill="#1e293b">Brand Identity Package</text>
+    <text x="270" y="285" font-family="Arial" font-size="12" fill="#1e293b">1</text>
+    <text x="310" y="285" font-family="Arial" font-size="12" fill="#1e293b">$1,800</text>
+    <text x="375" y="285" font-family="Arial" font-size="12" font-weight="600" fill="#1e293b" text-anchor="end">$1,800</text>
+    <line x1="30" y1="295" x2="410" y2="295" stroke="#e2e8f0" stroke-width="1"/>
+
+    <!-- Totals -->
+    <line x1="250" y1="315" x2="410" y2="315" stroke="#e2e8f0" stroke-width="2"/>
+    <text x="250" y="340" font-family="Arial" font-size="12" fill="#64748b">Subtotal</text>
+    <text x="410" y="340" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="end">$8,600</text>
+    <text x="250" y="360" font-family="Arial" font-size="12" fill="#64748b">Tax (8.5%)</text>
+    <text x="410" y="360" font-family="Arial" font-size="12" fill="#1e293b" text-anchor="end">$731</text>
+    <line x1="250" y1="375" x2="410" y2="375" stroke="#1e293b" stroke-width="2"/>
+    <text x="250" y="398" font-family="Arial" font-size="15" font-weight="800" fill="#1e293b">Total</text>
+    <text x="410" y="398" font-family="Arial" font-size="15" font-weight="800" fill="#1e293b" text-anchor="end">$9,331</text>
+  </g>
+
+  <!-- CTA bar at bottom -->
+  <rect x="0" y="560" width="1200" height="70" fill="url(#accent)" opacity="0.9"/>
+  <text x="400" y="602" font-family="Arial" font-size="22" font-weight="700" fill="#fff" text-anchor="end">Free · No signup · </text>
+  <text x="830" y="602" font-family="Arial" font-size="22" font-weight="700" fill="#fde68a" text-anchor="start">Pro from $5</text>
+</svg>

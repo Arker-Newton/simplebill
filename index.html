@@ -3,13 +3,60 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SimpleBill — Free Invoice Generator</title>
-  <meta name="description" content="Create professional invoices in seconds. Free, no sign-up, no ads.">
+
+  <title>SimpleBill — Free Invoice Generator for Freelancers</title>
+  <meta name="description" content="Create professional invoices in seconds. Free, no sign-up, no ads. Choose from 3 beautiful templates, export to PDF, auto-save, and more.">
+  <meta name="keywords" content="free invoice generator, invoice maker, freelance invoice, billing, PDF invoice">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="SimpleBill — Free Invoice Generator">
+  <meta property="og:description" content="Create professional invoices in seconds. No sign-up, no ads, no data collection.">
+  <meta property="og:url" content="https://arker-newton.github.io/simplebill/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://arker-newton.github.io/simplebill/assets/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SimpleBill — Free Invoice Generator">
+  <meta name="twitter:description" content="Create professional invoices in seconds. Free, no sign-up, no ads.">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "SimpleBill",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript",
+    "description": "Free online invoice generator for freelancers. Create, preview, and download professional invoices.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free core features with optional Pro upgrade"
+    },
+    "featureList": [
+      "Professional invoice templates",
+      "Real-time PDF preview",
+      "Multi-currency support",
+      "Auto-save to browser",
+      "Export to PDF and JSON"
+    ]
+  }
+  </script>
+
+  <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='26'>📄</text></svg>">
+  <meta name="theme-color" content="#2563eb">
 </head>
 <body>
 
@@ -20,6 +67,9 @@
         <i class="fas fa-file-invoice nav-logo-icon"></i>
         <span class="nav-logo-text">SimpleBill</span>
         <span class="nav-badge">beta</span>
+        <span class="free-notice" id="freeNotice">
+          <i class="fas fa-crown"></i> Free
+        </span>
       </div>
       <div class="nav-actions">
         <a href="#" class="nav-link" onclick="handleNew()" title="New invoice"><i class="fas fa-plus"></i><span> New</span></a>
@@ -27,10 +77,7 @@
         <a href="#" class="nav-link" onclick="handleLoad()" title="Load from JSON"><i class="fas fa-upload"></i><span> Load</span></a>
         <a href="#" class="nav-link" onclick="handlePrint()" title="Print / PDF"><i class="fas fa-file-pdf"></i><span> PDF</span></a>
         <a href="#" class="nav-link nav-upgrade" onclick="showProModal()" title="Upgrade to Pro">
-          <i class="fas fa-crown"></i><span> Pro</span>
-        </a>
-        <a href="https://ko-fi.com/simplebill" target="_blank" class="nav-link nav-donate" title="Buy us a coffee">
-          <i class="fas fa-heart"></i><span> Donate</span>
+          <i class="fas fa-crown"></i><span> Upgrade</span>
         </a>
       </div>
     </div>
@@ -42,12 +89,24 @@
     <div class="form-panel" id="formPanel">
       <div class="form-scroll">
 
+        <!-- Hero Tagline -->
+        <div class="form-hero">
+          <h2 class="form-hero-title">Professional Invoices, <span>Zero Effort</span></h2>
+          <p class="form-hero-sub">Fill in the details → see a live preview → download PDF. No account needed.</p>
+          <div class="form-hero-stats">
+            <span><i class="fas fa-check-circle" style="color:var(--green)"></i> 3 free templates</span>
+            <span><i class="fas fa-check-circle" style="color:var(--green)"></i> 7 currencies</span>
+            <span><i class="fas fa-check-circle" style="color:var(--green)"></i> Auto-save</span>
+            <span><i class="fas fa-check-circle" style="color:var(--green)"></i> PDF export</span>
+          </div>
+        </div>
+
         <!-- Pro Upgrade Banner -->
         <div class="pro-banner" onclick="showProModal()">
           <div class="pro-banner-icon"><i class="fas fa-crown"></i></div>
           <div class="pro-banner-text">
-            <strong>Unlock Pro</strong>
-            <span>Premium templates, CSV import & more</span>
+            <strong>Upgrade to Pro — $5</strong>
+            <span>Unlock premium templates, CSV import & more</span>
           </div>
           <div class="pro-banner-arrow"><i class="fas fa-arrow-right"></i></div>
         </div>
@@ -65,13 +124,13 @@
             <button class="template-opt" data-template="minimal" onclick="setTemplate('minimal')">
               <i class="fas fa-minus"></i> Minimal
             </button>
-            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Pro only">
+            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Unlock with Pro">
               <i class="fas fa-lock"></i> Elegant <span class="pro-badge">Pro</span>
             </button>
-            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Pro only">
+            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Unlock with Pro">
               <i class="fas fa-lock"></i> Bold <span class="pro-badge">Pro</span>
             </button>
-            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Pro only">
+            <button class="template-opt template-opt-pro" onclick="showProModal()" title="Unlock with Pro">
               <i class="fas fa-lock"></i> Clean <span class="pro-badge">Pro</span>
             </button>
           </div>
@@ -99,7 +158,7 @@
 
         <!-- Bill From -->
         <section class="form-section">
-          <label class="section-label">From (Your Info)</label>
+          <label class="section-label"><i class="fas fa-user"></i> From (Your Info)</label>
           <input class="input" type="text" id="fromName" placeholder="Your Name / Company" oninput="renderPreview()">
           <input class="input" type="text" id="fromEmail" placeholder="your@email.com" oninput="renderPreview()">
           <input class="input" type="text" id="fromPhone" placeholder="Phone (optional)" oninput="renderPreview()">
@@ -108,7 +167,7 @@
 
         <!-- Bill To -->
         <section class="form-section">
-          <label class="section-label">To (Client Info)</label>
+          <label class="section-label"><i class="fas fa-building"></i> To (Client Info)</label>
           <input class="input" type="text" id="toName" placeholder="Client Name / Company" oninput="renderPreview()">
           <input class="input" type="text" id="toEmail" placeholder="client@email.com" oninput="renderPreview()">
           <textarea class="input input-textarea" id="toAddress" placeholder="Street, City, Country" rows="2" oninput="renderPreview()"></textarea>
@@ -134,7 +193,7 @@
         <section class="form-section">
           <div class="section-label-row">
             <label class="section-label" style="margin:0">Line Items</label>
-            <button class="btn btn-sm btn-outline" onclick="addItem()"><i class="fas fa-plus"></i> Add</button>
+            <button class="btn btn-sm btn-outline" onclick="addItem()"><i class="fas fa-plus"></i> Add Item</button>
           </div>
           <div id="itemsContainer"></div>
         </section>
@@ -142,6 +201,11 @@
         <!-- Pro Features -->
         <section class="form-section pro-features-section">
           <label class="section-label" style="margin-bottom:8px;"><i class="fas fa-crown" style="color:var(--amber);"></i> Pro Features</label>
+          <div class="pro-feature-item" onclick="showProModal()">
+            <i class="fas fa-palette"></i>
+            <span>6 Premium Templates</span>
+            <span class="pro-badge-sm">Pro</span>
+          </div>
           <div class="pro-feature-item" onclick="showProModal()">
             <i class="fas fa-file-csv"></i>
             <span>CSV / Excel Import</span>
@@ -153,7 +217,7 @@
             <span class="pro-badge-sm">Pro</span>
           </div>
           <div class="pro-feature-item" onclick="showProModal()">
-            <i class="fas fa-palette"></i>
+            <i class="fas fa-paint-brush"></i>
             <span>Custom Branding & Colors</span>
             <span class="pro-badge-sm">Pro</span>
           </div>
@@ -182,9 +246,9 @@
 
         <!-- Pro CTA -->
         <div class="pro-cta">
-          <p>Love SimpleBill? Get <strong>Pro</strong> for premium templates & features.</p>
+          <p>✨ Remove the watermark, unlock premium templates, and more.</p>
           <button class="btn btn-primary" onclick="showProModal()" style="width:100%;justify-content:center;">
-            <i class="fas fa-crown"></i> Upgrade to Pro — $5
+            <i class="fas fa-crown"></i> Upgrade to Pro — $5 <span style="font-weight:400;font-size:0.75rem;margin-left:6px;">lifetime</span>
           </button>
         </div>
 
@@ -194,9 +258,9 @@
     <!-- ═══ Right: Preview ═══ -->
     <div class="preview-panel" id="previewPanel">
       <div class="preview-toolbar">
-        <span class="preview-toolbar-title"><i class="fas fa-eye"></i> Preview</span>
+        <span class="preview-toolbar-title"><i class="fas fa-eye"></i> Live Preview</span>
         <div class="preview-toolbar-actions">
-          <button class="btn btn-sm btn-primary" onclick="handlePrint()"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="btn btn-sm btn-primary" onclick="handlePrint()"><i class="fas fa-file-pdf"></i> Download PDF</button>
           <button class="btn btn-sm btn-outline" onclick="handlePrint()"><i class="fas fa-print"></i> Print</button>
         </div>
       </div>
@@ -216,36 +280,40 @@
       <div class="modal-header">
         <div class="modal-icon"><i class="fas fa-crown"></i></div>
         <h2>Upgrade to SimpleBill Pro</h2>
-        <p class="modal-sub">One-time payment. Lifetime access. No subscription.</p>
+        <p class="modal-sub">One payment. Lifetime access. No subscription fees — ever.</p>
       </div>
 
       <div class="modal-pricing">
         <div class="price-tag">
           <span class="price-currency">$</span>
           <span class="price-amount">5</span>
-          <span class="price-period">one-time</span>
+          <span class="price-period">lifetime access</span>
         </div>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:4px;">Compared to $15–30/mo for other tools</p>
       </div>
 
       <div class="modal-features">
-        <div class="modal-feature"><i class="fas fa-check"></i> <strong>6 Premium Templates</strong> — Elegant, Bold, Clean, plus 3 more</div>
-        <div class="modal-feature"><i class="fas fa-check"></i> <strong>CSV / Excel Import</strong> — Import items from spreadsheets</div>
-        <div class="modal-feature"><i class="fas fa-check"></i> <strong>Batch Generation</strong> — Create multiple invoices at once</div>
-        <div class="modal-feature"><i class="fas fa-check"></i> <strong>Custom Branding</strong> — Your logo, colors, fonts</div>
-        <div class="modal-feature"><i class="fas fa-check"></i> <strong>No Watermark</strong> — Clean PDF exports</div>
+        <div class="modal-feature"><i class="fas fa-check"></i> <strong>6 Premium Templates</strong> — Elegant, Bold, Clean & more</div>
+        <div class="modal-feature"><i class="fas fa-check"></i> <strong>CSV / Excel Import</strong> — Bulk import from spreadsheets</div>
+        <div class="modal-feature"><i class="fas fa-check"></i> <strong>Batch Generation</strong> — Create 10 invoices in one click</div>
+        <div class="modal-feature"><i class="fas fa-check"></i> <strong>Custom Branding</strong> — Logo, colors, custom fonts</div>
+        <div class="modal-feature"><i class="fas fa-check"></i> <strong>No Watermark</strong> — Clean, professional PDFs</div>
         <div class="modal-feature"><i class="fas fa-check"></i> <strong>Priority Support</strong> — Email help within 24h</div>
       </div>
 
-      <a href="#" class="btn btn-primary modal-pay-btn" onclick="handleProPurchase()" target="_blank">
+      <div class="modal-testimonial">
+        <i class="fas fa-quote-right" style="color:var(--primary-light);font-size:1.5rem;margin-bottom:4px;"></i>
+        <p>"I switched from FreshBooks. SimpleBill does 90% of what I need, for free. Upgraded to Pro just to support the project."</p>
+        <span style="font-size:0.75rem;color:var(--text-muted);">— Alex R., Freelance Designer</span>
+      </div>
+
+      <a href="#" class="btn btn-primary modal-pay-btn" onclick="handleProPurchase()">
         <i class="fas fa-crown"></i> Get Pro Now — $5
       </a>
-      <p class="modal-guarantee">✨ 30-day money-back guarantee. No questions asked.</p>
+      <p class="modal-guarantee">🔒 30-day money-back guarantee. Pay once, use forever.</p>
 
       <div class="modal-alternatives">
-        <p>Or support us with a donation:</p>
-        <a href="https://ko-fi.com/simplebill" target="_blank" class="btn btn-outline" style="justify-content:center;">
-          <i class="fas fa-heart" style="color:var(--red);"></i> Buy us a coffee
-        </a>
+        <p>Not ready yet? No problem — the free version is yours to use.</p>
       </div>
     </div>
   </div>
@@ -256,11 +324,13 @@
   <!-- Footer -->
   <footer class="footer">
     <div class="footer-inner">
-      <span class="footer-text">SimpleBill — Free Invoice Generator. Built with <i class="fas fa-heart" style="color:var(--red);font-size:12px;"></i> for freelancers.</span>
+      <span class="footer-text">
+        SimpleBill — Free Invoice Generator. Built with <i class="fas fa-heart" style="color:var(--red);font-size:12px;"></i> for freelancers.
+        <span class="footer-edition" id="footerEdition">Free</span>
+      </span>
       <div class="footer-links">
         <a href="#" onclick="handleNew()" class="footer-link">New</a>
         <a href="#" onclick="showProModal()" class="footer-link">Pro</a>
-        <a href="https://ko-fi.com/simplebill" target="_blank" class="footer-link">Donate</a>
       </div>
     </div>
   </footer>

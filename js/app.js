@@ -2,8 +2,31 @@
    SimpleBill — App Logic
    ============================================ */
 
-// ====== State ======
-let state = {
+// ====== Sample Data ======
+const SAMPLE_DATA = {
+  template: 'modern',
+  currency: 'USD',
+  taxRate: 8.5,
+  fromName: 'Sarah Chen',
+  fromEmail: 'sarah@creativestudio.io',
+  fromPhone: '+1 (555) 234-5678',
+  fromAddress: '245 Bryant St, Suite 200\nSan Francisco, CA 94107',
+  toName: 'Acme Digital Inc.',
+  toEmail: 'billing@acme.com',
+  toAddress: '1000 Market Street\nWilmington, DE 19801',
+  invNumber: 'INV-2024-0042',
+  invDate: '',
+  invDueDate: '',
+  items: [
+    { description: 'UI/UX Design — Homepage Redesign', quantity: 40, rate: 95 },
+    { description: 'Frontend Development — React Components', quantity: 25, rate: 120 },
+    { description: 'Brand Identity Package', quantity: 1, rate: 1800 }
+  ],
+  notes: 'Thank you for the opportunity to work on this project!',
+  terms: 'Payment is due within 30 days. Please include invoice number with payment.'
+};
+
+const DEFAULT_STATE = {
   template: 'modern',
   currency: 'USD',
   taxRate: 0,
@@ -17,10 +40,7 @@ let state = {
   invNumber: 'INV-001',
   invDate: '',
   invDueDate: '',
-  items: [
-    { description: 'Web Development Services', quantity: 1, rate: 0 },
-    { description: '', quantity: 1, rate: 0 }
-  ],
+  items: [{ description: '', quantity: 1, rate: 0 }, { description: '', quantity: 1, rate: 0 }],
   notes: '',
   terms: 'Payment is due within 30 days. Thank you for your business.'
 };
@@ -29,12 +49,25 @@ const CURRENCY_MAP = {
   USD: '$', EUR: '€', GBP: '£', CNY: '¥', JPY: '¥', CAD: 'C$', AUD: 'A$'
 };
 
+// ====== State ======
+let state = { ...DEFAULT_STATE };
+let hasDismissedWatermark = false;
+
 // ====== Initialization ======
 document.addEventListener('DOMContentLoaded', () => {
-  loadFromStorage();
+  const saved = localStorage.getItem('simplebill_state');
+  const hasUsed = localStorage.getItem('simplebill_has_used');
+  if (saved) {
+    loadFromStorage();
+  } else {
+    // First visit — show beautiful sample data
+    state = { ...SAMPLE_DATA };
+    syncFormFromState();
+    renderItems();
+    renderPreview();
+    showToast('👋 Welcome! Here\'s a sample invoice to get started.');
+  }
   setDefaults();
-  renderItems();
-  renderPreview();
 });
 
 function setDefaults() {
@@ -43,6 +76,16 @@ function setDefaults() {
     state.invDate = d.toISOString().split('T')[0];
     state.invDueDate = new Date(d.getTime() + 30*24*60*60*1000).toISOString().split('T')[0];
   }
+  renderPreview(); // ensure everything renders with dates
+}
+
+// ====== Pro status check ======
+function isPro() {
+  return localStorage.getItem('simplebill_pro') === 'true';
+}
+
+function getEdition() {
+  return isPro() ? 'Pro' : 'Free';
 }
 
 // ====== Template ======
@@ -133,7 +176,6 @@ function syncFormFromState() {
 
 // ====== Preview Render ======
 function renderPreview() {
-  // Sync form inputs -> state
   bindForm();
 
   const preview = document.getElementById('invoicePreview');
@@ -152,7 +194,17 @@ function renderPreview() {
   const totals = renderTotals(tpl, sym, subtotal, tax, total);
   const footer = renderFooter(tpl);
 
-  preview.innerHTML = header + addresses + table + totals + footer;
+  // Watermark overlay for free version
+  const watermark = isPro() ? '' :
+    `<div class="inv-watermark">SimpleBill FREE</div>`;
+
+  preview.innerHTML = header + addresses + table + totals + footer + watermark;
+
+  // Show/hide free watermark notice
+  const notice = document.getElementById('freeNotice');
+  if (notice) {
+    notice.style.display = isPro() ? 'none' : 'flex';
+  }
 }
 
 function renderHeader(tpl, curr, sym) {
@@ -207,7 +259,7 @@ function renderAddresses(tpl) {
     <p>${escHtml(state.fromEmail || '')}</p>
     ${state.fromPhone ? `<p>${escHtml(state.fromPhone)}</p>` : ''}
     <p>${escHtml(state.fromAddress || '').replace(/\n/g, '<br>')}</p>`;
-  
+
   const to = `
     <p><strong>${escHtml(state.toName || 'Client Name')}</strong></p>
     <p>${escHtml(state.toEmail || '')}</p>
@@ -239,7 +291,6 @@ function renderAddresses(tpl) {
         </div>
       </div>`;
   }
-  // minimal
   return `
     <div class="inv-addresses">
       <div class="inv-addr-block">
@@ -267,31 +318,6 @@ function renderTable(tpl, sym) {
     </tr>
   `).join('');
 
-  if (tpl === 'modern') {
-    return `
-      <table class="inv-table">
-        <thead><tr>
-          <th style="width:45%">Description</th>
-          <th style="width:10%">Qty</th>
-          <th style="width:18%" class="amt">Rate</th>
-          <th style="width:20%" class="amt">Amount</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>`;
-  }
-  if (tpl === 'classic') {
-    return `
-      <table class="inv-table">
-        <thead><tr>
-          <th style="width:45%">Description</th>
-          <th style="width:10%">Qty</th>
-          <th style="width:18%" class="amt">Rate</th>
-          <th style="width:20%" class="amt">Amount</th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>`;
-  }
-  // minimal
   return `
     <table class="inv-table">
       <thead><tr>
@@ -333,37 +359,46 @@ function renderFooter(tpl) {
 function showProModal() {
   document.getElementById('proModal').classList.add('active');
 }
+
 function closeProModal(event) {
   if (event && event.target !== event.currentTarget) return;
   document.getElementById('proModal').classList.remove('active');
 }
+
+function unlockPro() {
+  localStorage.setItem('simplebill_pro', 'true');
+  renderPreview();
+  closeProModal();
+  showToast('🎉 Welcome to SimpleBill Pro! Enjoy your premium features.');
+}
+
 function handleProPurchase() {
-  // Redirect to Ko-fi Shop or Gumroad
-  // TODO: Replace with actual payment link after user sets up
-  showToast('🛒 Payment page coming soon! Contact us to purchase Pro.');
-  // window.open('https://ko-fi.com/simplebill/shop', '_blank');
+  // Placeholder — will replace with Gumroad link after user registers
+  // For now, let user "try" Pro for evaluation
+  if (confirm('Gumroad payment setup is in progress. Click OK to unlock Pro for evaluation.')) {
+    unlockPro();
+  }
 }
 
 // ====== Actions ======
 function handlePrint() {
+  // Mark as used
+  localStorage.setItem('simplebill_has_used', 'true');
+
+  // If free version, show a subtle notice
+  if (!isPro()) {
+    // The watermark is already in the preview — just proceed to print
+  }
   window.print();
 }
 
 function handleNew() {
   if (!confirm('Start a new invoice? Current data will be saved.')) return;
-  handleSave(); // save current first
+  handleSave();
   localStorage.removeItem('simplebill_state');
-  state = {
-    template: 'modern', currency: 'USD', taxRate: 0,
-    fromName: '', fromEmail: '', fromPhone: '', fromAddress: '',
-    toName: '', toEmail: '', toAddress: '',
-    invNumber: 'INV-001',
-    invDate: new Date().toISOString().split('T')[0],
-    invDueDate: new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0],
-    items: [{ description: '', quantity: 1, rate: 0 }, { description: '', quantity: 1, rate: 0 }],
-    notes: '',
-    terms: 'Payment is due within 30 days. Thank you for your business.'
-  };
+  state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+  state.invDate = new Date().toISOString().split('T')[0];
+  state.invDueDate = new Date(Date.now() + 30*24*60*60*1000).toISOString().split('T')[0];
   syncFormFromState();
   renderItems();
   renderPreview();
@@ -380,7 +415,7 @@ function handleSave() {
   a.download = `invoice-${state.invNumber || 'draft'}.json`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast('Invoice saved as JSON');
+  showToast('💾 Invoice saved as JSON');
 }
 
 function handleLoad() {
@@ -394,19 +429,18 @@ function handleFileLoad(event) {
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target.result);
-      // Validate basic structure
       if (data.items && Array.isArray(data.items)) {
         state = data;
         syncFormFromState();
         renderItems();
         renderPreview();
         saveToStorage();
-        showToast('Invoice loaded successfully');
+        showToast('✅ Invoice loaded successfully');
       } else {
-        showToast('Invalid invoice file');
+        showToast('⚠️ Invalid invoice file');
       }
     } catch (err) {
-      showToast('Error loading file: ' + err.message);
+      showToast('⚠️ Error loading file: ' + err.message);
     }
   };
   reader.readAsText(file);
@@ -417,7 +451,8 @@ function handleFileLoad(event) {
 function saveToStorage() {
   try {
     localStorage.setItem('simplebill_state', JSON.stringify(state));
-  } catch (e) {/* storage full, ignore */}
+    localStorage.setItem('simplebill_has_used', 'true');
+  } catch (e) { /* storage full, ignore */ }
 }
 
 function loadFromStorage() {
@@ -429,12 +464,13 @@ function loadFromStorage() {
         state = Object.assign(state, data);
         syncFormFromState();
         renderItems();
+        renderPreview();
         return;
       }
     }
-  } catch (e) {/* ignore */}
-  // Still render items even if no saved state
+  } catch (e) { /* ignore */ }
   renderItems();
+  renderPreview();
 }
 
 // ====== Utilities ======
@@ -454,7 +490,7 @@ function showToast(msg) {
   t.textContent = msg;
   t.classList.add('show');
   clearTimeout(t._timeout);
-  t._timeout = setTimeout(() => t.classList.remove('show'), 2500);
+  t._timeout = setTimeout(() => t.classList.remove('show'), 3000);
 }
 
 // ====== Keyboard shortcuts ======

@@ -310,8 +310,8 @@ select.input { cursor: pointer; }
 
 /* ========== INVOICE PAGE ========== */
 .invoice-page {
-  width: 794px; /* A4 width at 96dpi */
-  min-height: 1123px; /* A4 height */
+  width: 794px;
+  min-height: 1123px;
   background: var(--surface);
   box-shadow: var(--shadow-lg);
   border-radius: 4px;
@@ -320,6 +320,7 @@ select.input { cursor: pointer; }
   color: var(--inv-text);
   font-size: 0.85rem;
   line-height: 1.6;
+  overflow: hidden;
 }
 
 /* === TEMPLATE: Modern (default) === */
@@ -593,6 +594,68 @@ select.input { cursor: pointer; }
 }
 .tpl-minimal .inv-footer h4 { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--inv-muted); margin-bottom: 2px; }
 
+/* ========== FORM HERO ========== */
+.form-hero {
+  margin-bottom: 20px;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, #dbeafe 100%);
+  border: 1px solid #bfdbfe;
+  border-radius: var(--radius-lg);
+}
+.form-hero-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.form-hero-title span { color: var(--primary); }
+.form-hero-sub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.form-hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+.form-hero-stats span { display: flex; align-items: center; gap: 4px; }
+
+/* Edition in footer */
+.footer-edition {
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--primary-light);
+  color: var(--primary);
+  padding: 1px 7px;
+  border-radius: 4px;
+  margin-left: 6px;
+}
+
+/* Modal testimonial */
+.modal-testimonial {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.modal-testimonial p {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+
 /* ========== PRO UPGRADE ========== */
 .nav-upgrade {
   background: linear-gradient(135deg, #f59e0b, #d97706);
@@ -692,6 +755,35 @@ select.input { cursor: pointer; }
   text-align: center;
 }
 .pro-cta p { font-size: 0.82rem; color: #92400e; margin-bottom: 12px; line-height: 1.5; }
+
+/* ========== WATERMARK & FREE NOTICE ========== */
+.inv-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-35deg);
+  font-size: 5rem;
+  font-weight: 800;
+  color: rgba(0,0,0,0.04);
+  letter-spacing: 0.08em;
+  pointer-events: none;
+  white-space: nowrap;
+  user-select: none;
+  z-index: 0;
+}
+
+.free-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: #92400e;
+}
+.free-notice i { color: var(--amber); }
 
 /* ========== PRO MODAL ========== */
 .modal-overlay {
