@@ -373,10 +373,10 @@ function unlockPro() {
 }
 
 function handleProPurchase() {
-  // Placeholder — will replace with Gumroad link after user registers
-  // For now, let user "try" Pro for evaluation
-  if (confirm('Gumroad payment setup is in progress. Click OK to unlock Pro for evaluation.')) {
+  // Option C: Unlock Pro for evaluation + show donate info
+  if (confirm('🎉 Try Pro FREE for evaluation! Support development with a donation if you find it useful.')) {
     unlockPro();
+    showToast('🎉 Pro unlocked! Watermark removed, all features enabled.');
   }
 }
 
